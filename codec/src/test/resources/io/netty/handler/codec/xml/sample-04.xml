@@ -380,21 +380,6 @@
           </dependency>
         </dependencies>
       </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <includes>
-             <include>**/*Test*.java</include>
-             <include>**/*Benchmark*.java</include>
-          </includes>
-          <excludes>
-            <exclude>**/Abstract*</exclude>
-            <exclude>**/TestUtil*</exclude>
-          </excludes>
-          <runOrder>random</runOrder>
-          <argLine>${test.jvm.argLine}</argLine>
-        </configuration>
-      </plugin>
       <!-- always produce osgi bundles -->
       <plugin>
         <groupId>org.apache.felix</groupId>

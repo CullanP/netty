@@ -729,10 +729,11 @@ public final class NioEventLoop extends SingleThreadEventLoop {
                     break;
                 }
 
-                int selectedKeys = selector.select(timeoutMillis);
                 selectCnt ++;
 
-                if (selectedKeys != 0 || oldWakenUp || wakenUp.get() || hasTasks() || hasScheduledTasks()) {
+                System.out.print("\nDEBUG CALLED");
+
+                if (oldWakenUp || wakenUp.get() || hasTasks() || hasScheduledTasks()) {
                     // - Selected something,
                     // - waken up by user, or
                     // - the task queue has a pending task.

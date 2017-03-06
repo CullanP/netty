@@ -250,8 +250,8 @@
     <log4j2.version>2.6.2</log4j2.version>
     <asm.version>5.1</asm.version>
     <testJavaHome>${env.JAVA_HOME}</testJavaHome>
-    <skipOsgiTestsuite>false</skipOsgiTestsuite>
-    <skipAutobahnTestsuite>false</skipAutobahnTestsuite>
+    <skipOsgiTestsuite>true</skipOsgiTestsuite>
+    <skipAutobahnTestsuite>true</skipAutobahnTestsuite>
   </properties>
 
   <modules>
@@ -592,36 +592,6 @@
 
     <plugins>
       <plugin>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>enforce-tools</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireJavaVersion>
-                  <!-- Enforce JDK 1.8+ for compilation. -->
-                  <!-- This is needed because of java.util.zip.Deflater and NIO UDP multicast. -->
-                  <version>[1.8.0,)</version>
-                </requireJavaVersion>
-                <requireMavenVersion>
-                  <version>[3.1.1,)</version>
-                </requireMavenVersion>
-                <requireProperty>
-                  <regexMessage>
-                    x86_64 JDK must be used.
-                  </regexMessage>
-                  <property>os.detected.arch</property>
-                  <regex>^x86_64$</regex>
-                </requireProperty>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.6.0</version>
         <configuration>
@@ -738,34 +708,6 @@
         </executions>
       </plugin>
       <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.12.1</version>
-        <executions>
-          <execution>
-            <id>check-style</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>validate</phase>
-            <configuration>
-              <consoleOutput>true</consoleOutput>
-              <logViolationsToConsole>true</logViolationsToConsole>
-              <failsOnError>true</failsOnError>
-              <failOnViolation>true</failOnViolation>
-              <configLocation>io/netty/checkstyle.xml</configLocation>
-              <includeTestSourceDirectory>true</includeTestSourceDirectory>
-            </configuration>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>netty-build</artifactId>
-            <version>${netty.build.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
         <version>1.0.1</version>
@@ -807,32 +749,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>**/*Test*.java</include>
-            <include>**/*Benchmark*.java</include>
-          </includes>
-          <excludes>
-            <exclude>**/Abstract*</exclude>
-            <exclude>**/TestUtil*</exclude>
-          </excludes>
-          <runOrder>random</runOrder>
-          <systemPropertyVariables>
-            <logback.configurationFile>${logging.config}</logback.configurationFile>
-            <logLevel>${logging.logLevel}</logLevel>
-          </systemPropertyVariables>
-          <argLine>${argLine.common} ${argLine.alpnAgent} ${argLine.leak} ${argLine.coverage} ${argLine.noUnsafe} ${argLine.java9} ${argLine.javaProperties}</argLine>
-          <properties>
-            <property>
-              <name>listener</name>
-              <value>io.netty.build.junit.TimedOutTestsListener</value>
-            </property>
-          </properties>
-          <jvm>${testJavaHome}/bin/java</jvm>
-        </configuration>
       </plugin>
       <!-- always produce osgi bundles -->
       <plugin>
@@ -1076,10 +992,6 @@
           </dependencies>
         </plugin>
         <!-- keep surefire and failsafe in sync -->
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.19.1</version>
-        </plugin>
         <!-- keep surefire and failsafe in sync -->
         <plugin>
           <artifactId>maven-failsafe-plugin</artifactId>

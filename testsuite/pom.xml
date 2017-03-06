@@ -21,6 +21,7 @@
     <groupId>io.netty</groupId>
     <artifactId>netty-parent</artifactId>
     <version>4.1.9.Final-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
 
   <artifactId>netty-testsuite</artifactId>
@@ -90,17 +91,5 @@
     <!-- Needed for SSL tests as these use the SelfSignedCertificate --> 
     <argLine.java9.extras>--add-exports java.base/sun.security.x509=ALL-UNNAMED</argLine.java9.extras>
   </properties>
-
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <testSourceDirectory>${project.build.sourceDirectory}</testSourceDirectory>
-          <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
 
